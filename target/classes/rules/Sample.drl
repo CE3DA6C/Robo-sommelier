@@ -1,0 +1,454 @@
+package com.sample
+
+import com.sample.RoboSommelier.*;
+ 
+rule"init"
+        when
+        then
+        System.out.println("INIT");
+        String[]options={"SO","Secret Santa","Family member","Co-Worker","Friend"};
+        insert(new Question("Who's the wine for?",options));
+        end
+
+        rule"Who"
+        when
+        q:Question(question=="Who's the wine for?"&&answer==null)
+        then
+        q.displayQuestion();
+        update(q);
+        end
+
+        rule"How long"
+        when
+        Question(question=="Who's the wine for?"&&answer=="SO")
+        then
+        String[]options={"It's new and...","Forever"};
+        Question q=new Question("How long?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"New"
+        when
+        Question(question=="How long?"&&answer=="It's new and...")
+        then
+        String[]options={"It could be serious","It's just a fling"};
+        Question q=new Question("It's new and...",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Serious"
+        when
+        Question(question=="It's new and..."&&answer=="It could be serious")
+        then
+        insert(new Choice("Barolo"));
+        System.out.println("Barolo");
+        end
+
+        rule"Fling"
+        when
+        Question(question=="It's new and..."&&answer=="It's just a fling")
+        then
+        insert(new Choice("Jack Daniel's"));
+        System.out.println("Jack Daniel's");
+        end
+
+        rule"What next"
+        when
+        Question(question=="How long?"&&answer=="Forever")
+        then
+        String[]options={"I'm getting ready to propose","..."};
+        Question q=new Question("What's next?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Proposal"
+        when
+        Question(question=="What's next?"&&answer=="I'm getting ready to propose")
+        then
+        insert(new Choice("Assyrtiko"));
+        System.out.println("Assyrtiko");
+        end
+
+        rule"Pathetic"
+        when
+        Question(question=="What's next?"&&answer=="...")
+        then
+        String[]options={"I spend more time at work","Everything is awesome"};
+        Question q=new Question("Take an honest look at yourself",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Workaholic"
+        when
+        Question(question=="Take an honest look at yourself"&&answer=="I spend more time at work")
+        then
+        insert(new Choice("Opus One"));
+        System.out.println("Opus One");
+        end
+
+        rule"You do you"
+        when
+        Question(question=="Take an honest look at yourself"&&answer=="Everything is awesome")
+        then
+        insert(new Choice("Chablis"));
+        System.out.println("Chablis");
+        end
+
+        rule"Santa"
+        when
+        Question(question=="Who's the wine for?"&&answer=="Secret Santa")
+        then
+        String[]options={"Yes","No"};
+        Question q=new Question("Are you broke?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Broke"
+        when
+        Question(question=="Are you broke?"&&answer=="Yes")
+        then
+        insert(new Choice("2 Buck Chuck"));
+        System.out.println("2 Buck Chuck");
+        end
+
+        rule"Not broke"
+        when
+        Question(question=="Are you broke?"&&answer=="No")
+        then
+        insert(new Choice("Paso Robles Cab"));
+        System.out.println("Paso Robles Cab");
+        end
+
+        rule"Friend"
+        when
+        Question(question=="Who's the wine for?"&&answer=="Friend")
+        then
+        String[]options={"Yes","No"};
+        Question q=new Question("Do they like wine?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Wine friend"
+        when
+        Question(question=="Do they like wine?"&&answer=="Yes")
+        then
+        String[]options={"Yes","No"};
+        Question q=new Question("Your bestie?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+
+        rule"Malbec"
+        when
+        Question(question=="Your bestie?"&&answer=="No")
+        then
+        insert(new Choice("Malbec"));
+        System.out.println("Malbec");
+        end
+
+        rule"Prestige Cuvee Champagne"
+        when
+        Question(question=="Your bestie?"&&answer=="Yes")
+        then
+        insert(new Choice("Prestige Cuvee Champagne"));
+        System.out.println("Prestige Cuvee Champagne");
+        end
+
+        rule"No wine friend"
+        when
+        Question(question=="Do they like wine?"&&answer=="No")
+        then
+        insert(new Choice("Jack Daniel's"));
+        System.out.println("Jack Daniel's");
+        end
+
+        rule"Co-worker"
+        when
+        Question(question=="Who's the wine for?"&&answer=="Co-Worker")
+        then
+        String[]options={"Yes","No"};
+        Question q=new Question("Boss?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Malbec2"
+        when
+        Question(question=="Boss?"&&answer=="No")
+        then
+        insert(new Choice("Malbec"));
+        System.out.println("Malbec");
+        end
+
+        rule"Boss"
+        when
+        Question(question=="Boss?"&&answer=="Yes")
+        then
+        String[]options={"Yes","No"};
+        Question q=new Question("Is the boss a snob?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Snob boss"
+        when
+        Question(question=="Is the boss a snob?"&&answer=="Yes")
+        then
+        insert(new Choice("Napa Cabernet"));
+        System.out.println("Napa Cabernet");
+        end
+
+        rule"No snob"
+        when
+        Question(question=="Is the boss a snob?"&&answer=="No")
+        then
+        String[]options={"Wait until Jan 1st for my bonus","Angling for a raise","I'm quitting","Trying to get out of the dog house"};
+        Question q=new Question("Your strategy",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Waiting"
+        when
+        Question(question=="Your strategy"&&answer=="Wait until Jan 1st for my bonus")
+        then
+        insert(new Choice("Prestige Cuvee Champagne"));
+        System.out.println("Prestige Cuvee Champagne");
+        end
+
+        rule"Raise"
+        when
+        Question(question=="Your strategy"&&answer=="Angling for a raise")
+        then
+        insert(new Choice("Premier Cru Red Burgundy"));
+        System.out.println("Premier Cru Red Burgundy");
+        end
+
+        rule"Dog House"
+        when
+        Question(question=="Your strategy"&&answer=="Trying to get out of the dog house")
+        then
+        insert(new Choice("A good second label Super Tuscan"));
+        System.out.println("A good second label Super Tuscan");
+        end
+
+        rule"Quitting"
+        when
+        Question(question=="Your strategy"&&answer=="I'm quitting")
+        then
+        String[]options={"Yes","No"};
+        Question q=new Question("For a better job?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Better job"
+        when
+        Question(question=="For a better job?"&&answer=="Yes")
+        then
+        insert(new Choice("Amarone"));
+        System.out.println("Amarone");
+        end
+
+        rule"Worse job"
+        when
+        Question(question=="For a better job?"&&answer=="No")
+        then
+        insert(new Choice("Chateu Diana"));
+        System.out.println("Chateu Diana");
+        end
+
+        rule"Who is it"
+        when
+        Question(question=="Who's the wine for?"&&answer=="Family member")
+        then
+        String[]options={"A sibling","Parents","The Inlaws"};
+        Question q=new Question("Who is it?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Sibling"
+        when
+        Question(question=="Who is it?"&&answer=="A sibling")
+        then
+        String[]options={"Sadly, not me","Is that even a question?!"};
+        Question q=new Question("Who's the overachiever?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Not achiever"
+        when
+        Question(question=="Who's the overachiever?"&&answer=="Sadly, not me")
+        then
+        String[]options={"Yes","No"};
+        Question q=new Question("Take the high road?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Low road"
+        when
+        Question(question=="Take the high road?"&&answer=="No")
+        then
+        insert(new Choice("Chateu Diana"));
+        System.out.println("Chateu Diana");
+        end
+
+        rule"High road"
+        when
+        Question(question=="Take the high road?"&&answer=="Yes")
+        then
+        insert(new Choice("Reserve Rioja"));
+        System.out.println("Reserve Rioja");
+        end
+
+        rule"Overachiever"
+        when
+        Question(question=="Who's the overachiever?"&&answer=="Is that even a question?!")
+        then
+        String[]options={"Yes","No"};
+        Question q=new Question("Stick it in their face?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Stick"
+        when
+        Question(question=="Stick it in their face?"&&answer=="Yes")
+        then
+        insert(new Choice("Classified Growth Bordeaux"));
+        System.out.println("Classified Growth Bordeaux");
+        end
+
+        rule"No Stick"
+        when
+        Question(question=="Stick it in their face?"&&answer=="No")
+        then
+        insert(new Choice("Well isn't that awfully big of you... Oregon Pinot Noir"));
+        System.out.println("Oregon Pinot Noir");
+        end
+
+        rule"Parents"
+        when
+        Question(question=="Who is it?"&&answer=="Parents")
+        then
+        String[]options={"Yes","No"};
+        Question q=new Question("Golden child?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Golden child"
+        when
+        Question(question=="Golden child?"&&answer=="Yes")
+        then
+        insert(new Choice("Their favorite"));
+        System.out.println("Their favorite");
+        end
+
+        rule"Bad apple"
+        when
+        Question(question=="Golden child?"&&answer=="No")
+        then
+        String[]options={"Yes","Meh"};
+        Question q=new Question("Trying to be good?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Good boy"
+        when
+        Question(question=="Trying to be good?"&&answer=="Yes")
+        then
+        insert(new Choice("Russian River Pinot Noir"));
+        System.out.println("Russian River Pinot Noir");
+        end
+
+        rule"Meh"
+        when
+        Question(question=="Trying to be good?"&&answer=="Meh")
+        then
+        insert(new Choice("Jug wine!"));
+        System.out.println("Jug wine!");
+        end
+
+        rule"Inlaws"
+        when
+        Question(question=="Who is it?"&&answer=="The Inlaws")
+        then
+        String[]options={"Yes","No"};
+        Question q=new Question("We're here to help! At their house?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Guests"
+        when
+        Question(question=="We're here to help! At their house?"&&answer=="Yes")
+        then
+        insert(new Choice("Zinfandel"));
+        System.out.println("Zinfandel");
+        end
+
+        rule"Your house"
+        when
+        Question(question=="We're here to help! At their house?"&&answer=="No")
+        then
+        String[]options={"Bliss!","The divorce lawyer is on speed dial"};
+        Question q=new Question("How's your marriage?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Divorce"
+        when
+        Question(question=="How's your marriage?"&&answer=="The divorce lawyer is on speed dial")
+        then
+        insert(new Choice("Aged rum"));
+        System.out.println("Aged rum");
+        end
+
+        rule"Bliss"
+        when
+        Question(question=="How's your marriage?"&&answer=="Bliss!")
+        then
+        String[]options={"I love them!","Shoot me"};
+        Question q=new Question("And the inlaws?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Bad inlaws"
+        when
+        Question(question=="And the inlaws?"&&answer=="Shoot me")
+        then
+        insert(new Choice("Mosel Riesling"));
+        System.out.println("Mosel Riesling");
+        end
+
+        rule"Good inlaws"
+        when
+        Question(question=="And the inlaws?"&&answer=="I love them!")
+        then
+        String[]options={"I know!"};
+        Question q=new Question("Seriously?",options);
+        q.displayQuestion();
+        insert(q);
+        end
+
+        rule"Good inlaws 2"
+        when
+        Question(question=="And the inlaws?"&&answer=="I know!")
+        then
+        insert(new Choice("Chateauneuf Du Pape"));
+        System.out.println("Chateauneuf Du Pape");
+        end
