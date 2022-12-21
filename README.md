@@ -3,4 +3,5 @@
 
 Nr. Indeksu: 135831
 
-## Schemat graficzny:
+## Schemat graficzny
+![schemat decyzyjny na podstawie którego stworzono projekt](https://github.com/CE3DA6C/Robo-sommelier/blob/main/wine_gift_flowchart.webp)
